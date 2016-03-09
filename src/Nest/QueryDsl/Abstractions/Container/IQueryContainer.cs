@@ -4,7 +4,7 @@ namespace Nest
 {
 	[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 	[JsonConverter(typeof(QueryContainerJsonConverter))]
-	public interface IQueryContainer 
+	public interface IQueryContainer
 	{
 		[JsonIgnore]
 		bool IsConditionless { get; }
@@ -14,10 +14,13 @@ namespace Nest
 
 		[JsonIgnore]
 		bool IsVerbatim { get; set; }
-		
+
+		[JsonIgnore]
+		bool IsWritable { get; }
+
 		[JsonIgnore]
 		IRawQuery RawQuery { get; set; }
-		
+
 		[JsonProperty("bool")]
 		IBoolQuery Bool { get; set; }
 
@@ -77,7 +80,7 @@ namespace Nest
 
 		[JsonProperty("has_parent")]
 		IHasParentQuery HasParent { get; set; }
-		
+
 		[JsonProperty("span_term")]
 		ISpanTermQuery SpanTerm { get; set; }
 

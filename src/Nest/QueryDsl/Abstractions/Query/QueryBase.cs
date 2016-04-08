@@ -34,7 +34,7 @@ namespace Nest
 		public double? Boost { get; set; }
 		public bool IsVerbatim { get; set; }
 		public bool IsStrict { get; set; }
-		public bool IsWritable { get { return this.IsVerbatim || !this.Conditionless; } }
+		public bool IsWritable => this.IsVerbatim || !this.Conditionless;
 
 		bool IQuery.Conditionless => this.Conditionless;
 		protected abstract bool Conditionless { get; }

@@ -12,6 +12,149 @@ using Xunit;
 
 namespace Tests.QueryDsl
 {
+	/** Setting `IsStrict` on the outer query container is a noop */
+	public class QueryContainerStrictQueryUsageTests : QueryDslUsageTestsBase
+	{
+		protected override bool SupportsDeserialization => false;
+
+		public QueryContainerStrictQueryUsageTests(ReadOnlyCluster cluster, EndpointUsage usage) : base(cluster, usage) { }
+
+		protected override object QueryJson => new
+		{
+			@bool = new
+			{
+				must = new object[]
+				{
+					new
+					{
+						term = new
+						{
+							name = new
+							{
+								value = "foo"
+							}
+						}
+					}
+				}
+			}
+		};
+
+		protected override QueryContainer QueryInitializer
+		{
+			get
+			{
+				IQueryContainer query = new QueryContainer(new BoolQuery
+				{
+					Must = new List<QueryContainer>
+					{
+						new TermQuery
+						{
+							Field = "description",
+							Value = ""
+						},
+						new TermQuery
+						{
+							Field = "name",
+							Value = "foo"
+						}
+					}
+				});
+
+				query.IsStrict = true;
+				return (QueryContainer)query;
+			}
+		}
+
+#pragma warning disable 618
+		protected override QueryContainer QueryFluent(QueryContainerDescriptor<Project> q) => q
+			.Strict()
+			.Bool(b => b
+				.Must(qt => qt
+					.Term(t => t
+						.Field(p => p.Description)
+						.Value("")
+					), qt => qt
+					.Term(t => t
+						.Field(p => p.Name)
+						.Value("foo")
+					)
+				)
+			);
+#pragma warning restore 618
+	}
+
+	/** Setting `IsVerbatim` on the outer query container is a noop */
+	public class QueryContainerVerbatimQueryUsageTests : QueryDslUsageTestsBase
+	{
+		protected override bool SupportsDeserialization => false;
+
+		public QueryContainerVerbatimQueryUsageTests(ReadOnlyCluster cluster, EndpointUsage usage) : base(cluster, usage) { }
+
+		protected override object QueryJson => new
+		{
+			@bool = new
+			{
+				must = new object[]
+				{
+					new
+					{
+						term = new
+						{
+							name = new
+							{
+								value = "foo"
+							}
+						}
+					}
+				}
+			}
+		};
+
+		protected override QueryContainer QueryInitializer
+		{
+			get
+			{
+				IQueryContainer query = new QueryContainer(new BoolQuery
+				{
+					Must = new List<QueryContainer>
+					{
+						new TermQuery
+						{
+							Field = "description",
+							Value = ""
+						},
+						new TermQuery
+						{
+							Field = "name",
+							Value = "foo"
+						}
+					}
+				});
+
+				query.IsVerbatim = true;
+				return (QueryContainer)query;
+			}
+		}
+
+#pragma warning disable 618
+		protected override QueryContainer QueryFluent(QueryContainerDescriptor<Project> q) => q
+			.Verbatim()
+			.Bool(b => b
+				.Must(qt => qt
+					.Term(t => t
+						.Field(p => p.Description)
+						.Value("")
+					), qt => qt
+					.Term(t => t
+						.Field(p => p.Name)
+						.Value("foo")
+					)
+				)
+			);
+#pragma warning restore 618
+	}
+
+	/** `IsVerbatim` should be set on individual queries to take effect */
 	public class CompoundVerbatimQueryUsageTests : QueryDslUsageTestsBase
 	{
 		protected override bool SupportsDeserialization => false;

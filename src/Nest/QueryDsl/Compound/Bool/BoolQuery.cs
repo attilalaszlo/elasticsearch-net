@@ -16,14 +16,15 @@ namespace Nest
 		IEnumerable<QueryContainer> Must { get; set; }
 
 		/// <summary>
-		/// The clause (query) must not appear in the matching documents. Note that it is not possible to search on documents that only consists of a must_not clauses.
+		/// The clause (query) must not appear in the matching documents.
+		/// Note that it is not possible to search on documents that only consists of a must_not clauses.
 		/// </summary>
 		[JsonProperty("must_not", DefaultValueHandling = DefaultValueHandling.Ignore)]
 		IEnumerable<QueryContainer> MustNot { get; set; }
 
 		/// <summary>
 		/// The clause (query) should appear in the matching document. A boolean query with no must clauses, one or more should clauses must match a document.
-		/// The minimum number of should clauses to match can be set using minimum_should_match parameter.
+		/// The minimum number of should clauses to match can be set using <see cref="MinimumShouldMatch"/>.
 		/// </summary>
 		[JsonProperty("should", DefaultValueHandling = DefaultValueHandling.Ignore)]
 		IEnumerable<QueryContainer> Should { get; set; }
@@ -69,7 +70,7 @@ namespace Nest
 
 		/// <summary>
 		/// The clause (query) should appear in the matching document. A boolean query with no must clauses, one or more should clauses must match a document.
-		/// The minimum number of should clauses to match can be set using minimum_should_match parameter.
+		/// The minimum number of should clauses to match can be set using <see cref="MinimumShouldMatch"/>.
 		/// </summary>
 		public IEnumerable<QueryContainer> Should { get; set; }
 
@@ -96,15 +97,18 @@ namespace Nest
 		protected override bool Conditionless => IsConditionless(this);
 		internal static bool IsConditionless(IBoolQuery q)
 		{
-			if (!q.Must.HasAny() && !q.Should.HasAny() && !q.MustNot.HasAny() && !q.Filter.HasAny())
-				return true;
+			var musts = q.Must == null || q.Must.All(qq => qq.IsConditionless());
+			if (!musts) return false;
 
-			var mustNots = q.MustNot == null || q.MustNot.HasAny() && q.MustNot.All(qq => qq.IsConditionless());
-			var shoulds = q.Should == null || q.Should.HasAny() && q.Should.All(qq => qq.IsConditionless());
-			var musts = q.Must == null || q.Must.HasAny() && q.Must.All(qq => qq.IsConditionless());
-			var filters = q.Filter == null || (q.Filter.HasAny() && q.Filter.All(qq => qq.IsConditionless()));
+			var shoulds = q.Should == null || q.Should.All(qq => qq.IsConditionless());
+			if (!shoulds) return false;
 
-			return mustNots && shoulds && musts && filters;
+			var filters = q.Filter == null || q.Filter.All(qq => qq.IsConditionless());
+			if (!filters) return false;
+
+			var mustNots = q.MustNot == null || q.MustNot.All(qq => qq.IsConditionless());
+
+			return mustNots;
 		}
 	}
 
@@ -182,7 +186,7 @@ namespace Nest
 
 		/// <summary>
 		/// The clause (query) should appear in the matching document. A boolean query with no must clauses, one or more should clauses must match a document.
-		/// The minimum number of should clauses to match can be set using minimum_should_match parameter.
+		/// The minimum number of should clauses to match can be set using <see cref="MinimumShouldMatch"/>.
 		/// </summary>
 		/// <param name="queries"></param>
 		/// <returns></returns>
@@ -191,7 +195,7 @@ namespace Nest
 
 		/// <summary>
 		/// The clause (query) should appear in the matching document. A boolean query with no must clauses, one or more should clauses must match a document.
-		/// The minimum number of should clauses to match can be set using minimum_should_match parameter.
+		/// The minimum number of should clauses to match can be set using <see cref="MinimumShouldMatch"/>.
 		/// </summary>
 		/// <param name="queries"></param>
 		/// <returns></returns>
@@ -200,7 +204,7 @@ namespace Nest
 
 		/// <summary>
 		/// The clause (query) should appear in the matching document. A boolean query with no must clauses, one or more should clauses must match a document.
-		/// The minimum number of should clauses to match can be set using minimum_should_match parameter.
+		/// The minimum number of should clauses to match can be set using <see cref="MinimumShouldMatch"/>.
 		/// </summary>
 		/// <param name="queries"></param>
 		/// <returns></returns>

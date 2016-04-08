@@ -42,7 +42,7 @@ namespace Nest
 		bool IQuery.IsWritable { get; }
 		public bool IsVerbatim { get; set; }
 		public bool IsStrict { get; set; }
-		public bool IsWritable { get { return this.IsVerbatim || IsConditionless(this); } }
+		public bool IsWritable => this.IsVerbatim || !IsConditionless(this);
 		bool IQuery.Conditionless => IsConditionless(this);
 		public ISpanTermQuery SpanTerm { get; set; }
 		public ISpanFirstQuery SpanFirst { get; set; }

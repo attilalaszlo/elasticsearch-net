@@ -23,20 +23,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nest", "Nest\Nest.xproj", "{5CED4B1F-25CF-4632-9EA0-023E7FAFA217}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Tests", "Tests\Tests.xproj", "{0BD06B70-32E2-4C2F-8EFA-B37CC72CB462}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "CodeGeneration.LowLevelClient", "CodeGeneration\CodeGeneration.LowLevelClient\CodeGeneration.LowLevelClient.xproj", "{BB01E81B-BBF0-475F-B5BC-667702D79AE7}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Nest.Litterateur", "CodeGeneration\Nest.Litterateur\Nest.Litterateur.xproj", "{CBBBAB40-A73B-4CC7-91D3-5E7DDAB54925}"
-EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "scripts", "..\build\scripts\scripts.fsproj", "{28328694-2598-44D3-BB25-8B6C3FBDD3EF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CodeGeneration", "CodeGeneration", "{6DADFF2C-74D1-4E6F-85AA-CCB25C408311}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Performance", "Performance", "{7EF558D9-E521-4E80-9BC3-93872182DC00}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Benchmarking", "Benchmarking\Benchmarking.xproj", "{2372A622-A5F2-4AF9-B88A-7782A9E88B2D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

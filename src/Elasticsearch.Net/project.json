@@ -70,6 +70,9 @@
         "System.Runtime.Serialization": {
           "type": "build"
         }
+      },
+      "dependencies": {
+        "System.Diagnostics.Contracts": "4.0.1-beta-23516"
       }
     },
     "net45": {
@@ -88,6 +91,9 @@
         "System.Runtime.Serialization": {
           "type": "build"
         }
+      },
+      "dependencies": {
+        "System.Diagnostics.Contracts": "4.0.1-beta-23516"
       }
     },
     "dotnet5.1": {
